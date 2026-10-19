@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ncores – Websites and software for your business</title>
+    <meta
+      name="description"
+      content="We build fast websites, smart software, and digital tools to help your business grow."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Crect x='2' y='2' width='12' height='12' rx='4' fill='%232749F0'/%3E%3Crect x='16' y='2' width='12' height='12' rx='4' fill='%230F1C3D'/%3E%3Crect x='2' y='16' width='12' height='12' rx='4' fill='%230F1C3D'/%3E%3Crect x='16' y='16' width='12' height='12' rx='4' fill='%232749F0' opacity='.45'/%3E%3C/svg%3E"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Figtree:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <style>
+      html {
+        scroll-behavior: smooth;
+        scroll-padding-top: 88px;
+      }
+      body {
+        font-family: "Figtree", system-ui, sans-serif;
+        background: #f5f6fa;
+        color: #0f1c3d;
+        -webkit-font-smoothing: antialiased;
+      }
+      .display {
+        font-family: "Bricolage Grotesque", "Figtree", sans-serif;
+        letter-spacing: -0.03em;
+      }
+      .rise {
+        animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+      }
+      .rise-2 {
+        animation-delay: 0.14s;
+      }
+      .rise-3 {
+        animation-delay: 0.28s;
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(18px);
+        }
+      }
+      .pop {
+        animation: pop 0.22s ease-out both;
+      }
+      @keyframes pop {
+        from {
+          opacity: 0;
+          transform: scale(0.96) translateY(8px);
+        }
+      }
+      .float {
+        animation: float 7s ease-in-out infinite;
+      }
+      @keyframes float {
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      :focus-visible {
+        outline: 2px solid #2749f0;
+        outline-offset: 3px;
+      }
+      ::selection {
+        background: #2749f0;
+        color: #fff;
+      }
+      .ic {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border-radius: 9999px;
+        padding: 0.875rem 1.75rem;
+        font-weight: 600;
+        transition:
+          background-color 0.2s,
+          border-color 0.2s;
+      }
+      .btn-primary {
+        background: #2749f0;
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: #1b38c9;
+      }
+      .btn-wa {
+        background: #128c4a;
+        color: #fff;
+      }
+      .btn-wa:hover {
+        background: #0e7a3f;
+      }
+      .btn-ghost {
+        background: #fff;
+        border: 1px solid #cbd0de;
+        color: #0f1c3d;
+      }
+      .btn-ghost:hover {
+        border-color: #0f1c3d;
+      }
+      .field {
+        width: 100%;
+        margin-top: 0.375rem;
+        border: 1px solid #d5d9e4;
+        background: #fff;
+        border-radius: 0.75rem;
+        padding: 0.75rem 1rem;
+        font-size: 15px;
+        font-weight: 400;
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .field:focus {
+        border-color: #2749f0;
+        box-shadow: 0 0 0 4px rgba(39, 73, 240, 0.15);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="toast"
+      role="status"
+      class="pop fixed bottom-6 right-6 z-50 hidden items-center gap-3 rounded-2xl bg-[#0F1C3D] px-5 py-3.5 text-white shadow-2xl"
+    >
+      <span data-i="check" class="text-[#4ADE9F]"></span
+      ><span id="toast-text" class="text-sm font-medium"></span>
+    </div>
+
+    <!-- Navigation -->
+    <header
+      class="sticky top-0 z-40 border-b border-[#E3E6EE] bg-[#F5F6FA]/85 backdrop-blur-md"
+    >
+      <div
+        class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4"
+      >
+        <a href="#" class="flex items-center gap-2.5" aria-label="ncores home"
+          ><span data-mark></span
+          ><span class="display text-2xl font-bold">ncores</span></a
+        >
+        <nav
+          class="hidden items-center gap-9 text-[15px] font-medium text-[#5A6479] md:flex"
+          data-nav
+        ></nav>
+        <a
+          href="#contact"
+          class="hidden rounded-full bg-[#0F1C3D] px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#2749F0] md:inline-flex"
+          >Start a project</a
+        >
+        <button
+          id="menu-btn"
+          class="p-2 md:hidden"
+          aria-label="Toggle menu"
+          aria-expanded="false"
+        >
+          <span data-i="menu"></span>
+        </button>
+      </div>
+      <nav
+        id="mobile-nav"
+        class="hidden flex-col gap-1 border-t border-[#E3E6EE] bg-[#F5F6FA] px-6 py-3 md:hidden"
+        data-nav="mobile"
+      ></nav>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section
+        class="mx-auto grid max-w-7xl items-center gap-20 px-6 pb-28 pt-14 md:pt-24 lg:grid-cols-[1.05fr_0.95fr]"
+      >
+        <div>
+          <h1
+            class="display rise text-[2.7rem] font-bold leading-[1.02] sm:text-6xl xl:text-7xl"
+          >
+            Websites and software that keep your business moving.
+          </h1>
+          <p
+            class="rise rise-2 mt-7 max-w-xl text-lg leading-relaxed text-[#5A6479]"
+          >
+            We build fast websites, smart software, and digital tools to help
+            your business grow.
+          </p>
+          <div class="rise rise-3 mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href="#work" class="btn btn-primary"
+              >See our work <span data-i="arrow"></span
+            ></a>
+            <a
+              data-wa
+              href="#contact"
+              target="_blank"
+              rel="noopener"
+              class="btn btn-ghost"
+              >Chat on WhatsApp</a
+            >
+          </div>
+          <ul
+            class="rise rise-3 mt-12 grid max-w-md grid-cols-2 gap-x-6 gap-y-3 text-[15px] font-medium"
+          >
+            <li class="flex items-center gap-2.5">
+              <span
+                class="flex h-5 w-5 items-center justify-center rounded-full bg-[#E6EAFF] text-[#2749F0]"
+                ><span data-i="check" data-s="12"></span></span
+              >Made to order
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span
+                class="flex h-5 w-5 items-center justify-center rounded-full bg-[#E6EAFF] text-[#2749F0]"
+                ><span data-i="check" data-s="12"></span></span
+              >Fast on phones
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span
+                class="flex h-5 w-5 items-center justify-center rounded-full bg-[#E6EAFF] text-[#2749F0]"
+                ><span data-i="check" data-s="12"></span></span
+              >Secure by default
+            </li>
+            <li class="flex items-center gap-2.5">
+              <span
+                class="flex h-5 w-5 items-center justify-center rounded-full bg-[#E6EAFF] text-[#2749F0]"
+                ><span data-i="check" data-s="12"></span></span
+              >Help after launch
+            </li>
+          </ul>
+        </div>
+
+        <div class="relative mx-auto w-full max-w-[540px]" aria-hidden="true">
+          <div class="absolute -inset-5 rounded-[2.5rem] bg-[#E6EAFF]"></div>
+          <div
+            class="rise rise-2 relative overflow-hidden rounded-2xl border border-[#E3E6EE] bg-white shadow-[0_30px_60px_-20px_rgba(15,28,61,0.35)]"
+          >
+            <div
+              class="flex items-center gap-3 border-b border-[#E3E6EE] px-4 py-3"
+            >
+              <span class="flex gap-1.5"
+                ><i class="h-2.5 w-2.5 rounded-full bg-[#D5D9E4]"></i
+                ><i class="h-2.5 w-2.5 rounded-full bg-[#D5D9E4]"></i
+                ><i class="h-2.5 w-2.5 rounded-full bg-[#D5D9E4]"></i
+              ></span>
+              <span
+                class="mx-auto rounded-md bg-[#F5F6FA] px-3 py-1 text-xs text-[#5A6479]"
+                >picklescorner.store</span
+              >
+            </div>
+            <div class="p-5">
+              <div
+                class="flex h-24 flex-col justify-end rounded-xl bg-[#0F1C3D] p-4"
+              >
+                <div class="h-2.5 w-32 rounded bg-white/90"></div>
+                <div class="mt-2 h-2 w-20 rounded bg-white/40"></div>
+              </div>
+              <div class="mt-4 grid grid-cols-3 gap-3" id="tiles"></div>
+            </div>
+          </div>
+          <div
+            class="float absolute -bottom-9 -left-3 w-52 rounded-2xl border border-[#E3E6EE] bg-white p-4 shadow-[0_20px_40px_-15px_rgba(15,28,61,0.35)] sm:-left-10"
+          >
+            <div class="text-xs font-semibold text-[#5A6479]">
+              Active members
+            </div>
+            <div class="display mt-1 text-3xl font-bold">248</div>
+            <div class="mt-3 flex h-10 items-end gap-1.5" id="bars"></div>
+          </div>
+          <div
+            class="absolute -top-4 right-6 flex items-center gap-2 rounded-full border border-[#E3E6EE] bg-white px-3.5 py-1.5 text-xs font-semibold shadow-md"
+          >
+            <span class="h-2 w-2 rounded-full bg-[#0E9F6E]"></span> Live
+          </div>
+        </div>
+      </section>
+
+      <!-- Services -->
+      <section id="services" class="border-y border-[#E3E6EE] bg-white">
+        <div
+          class="mx-auto grid max-w-7xl gap-12 px-6 py-24 lg:grid-cols-[0.8fr_1.2fr]"
+        >
+          <div class="self-start lg:sticky lg:top-28">
+            <h2 class="display text-4xl font-bold leading-tight md:text-5xl">
+              What we can build for you
+            </h2>
+            <p class="mt-5 max-w-sm leading-relaxed text-[#5A6479]">
+              Tell us the problem. We choose the right tools and handle the
+              technical parts.
+            </p>
+          </div>
+          <div
+            id="services-list"
+            class="divide-y divide-[#E3E6EE] border-y border-[#E3E6EE]"
+          ></div>
+        </div>
+      </section>
+
+      <!-- Work -->
+      <section id="work" class="mx-auto max-w-7xl px-6 py-24">
+        <div
+          class="flex flex-col justify-between gap-8 md:flex-row md:items-end"
+        >
+          <h2
+            class="display max-w-xl text-4xl font-bold leading-tight md:text-5xl"
+          >
+            Real projects we have delivered
+          </h2>
+          <div
+            id="filters"
+            class="inline-flex self-start rounded-full border border-[#E3E6EE] bg-white p-1 text-sm font-semibold"
+            role="group"
+            aria-label="Filter projects"
+          ></div>
+        </div>
+        <div id="projects" class="mt-12 grid gap-8 md:grid-cols-2"></div>
+      </section>
+
+      <!-- Process -->
+      <section id="process" class="border-y border-[#E3E6EE] bg-white">
+        <div class="mx-auto max-w-7xl px-6 py-24">
+          <h2
+            class="display max-w-xl text-4xl font-bold leading-tight md:text-5xl"
+          >
+            How a project works
+          </h2>
+          <ol id="steps" class="mt-14 grid gap-10 md:grid-cols-4 md:gap-6"></ol>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" class="mx-auto max-w-7xl px-6 py-24">
+        <div
+          class="grid gap-12 rounded-[2rem] bg-[#0F1C3D] p-8 sm:p-12 lg:grid-cols-2 lg:gap-16 lg:p-16"
+        >
+          <div class="text-white">
+            <h2 class="display text-4xl font-bold leading-tight md:text-5xl">
+              Let's talk about your project
+            </h2>
+            <p class="mt-5 max-w-md leading-relaxed text-white/70">
+              Message us on WhatsApp for the fastest reply. No form needed. You
+              can also send an email if you prefer.
+            </p>
+            <div class="mt-10 space-y-6" id="contact-info"></div>
+          </div>
+          <div class="space-y-5">
+            <div class="rounded-3xl bg-white p-7 sm:p-8">
+              <h3 class="display text-2xl font-bold">
+                Chat with us on WhatsApp
+              </h3>
+              <p class="mt-2 leading-relaxed text-[#5A6479]">
+                No form needed. Tap what you need and WhatsApp opens with the
+                message ready to send.
+              </p>
+              <div id="wa-topics" class="mt-5 flex flex-wrap gap-2"></div>
+              <a
+                data-wa
+                href="#contact"
+                target="_blank"
+                rel="noopener"
+                class="btn btn-wa mt-6 w-full"
+                ><span data-i="chat"></span> Open WhatsApp</a
+              >
+            </div>
+            <form id="form" class="space-y-4 rounded-3xl bg-white p-7 sm:p-8">
+              <h3 class="display text-xl font-bold">Prefer email?</h3>
+              <label class="block text-sm font-semibold"
+                >Your name<input
+                  name="name"
+                  type="text"
+                  required
+                  class="field"
+                  placeholder="John Doe"
+              /></label>
+              <label class="block text-sm font-semibold"
+                >Your email<input
+                  name="email"
+                  type="email"
+                  required
+                  class="field"
+                  placeholder="john@email.com"
+              /></label>
+              <label class="block text-sm font-semibold"
+                >How can we help?<textarea
+                  name="message"
+                  rows="3"
+                  required
+                  class="field"
+                  placeholder="Tell us about your project..."
+                ></textarea>
+              </label>
+              <button type="submit" class="btn btn-ghost w-full">
+                <span data-i="mail"></span> Send by email
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="border-t border-[#E3E6EE]">
+      <div
+        class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-[#5A6479] md:flex-row"
+      >
+        <div class="flex items-center gap-2.5 font-bold text-[#0F1C3D]">
+          <span data-mark></span>ncores
+        </div>
+        <nav class="flex gap-6" data-nav="footer"></nav>
+        <p>© <span id="year"></span> ncores. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <!-- Project popup -->
+    <div
+      id="modal"
+      class="fixed inset-0 z-50 hidden items-center justify-center bg-[#0F1C3D]/60 p-4 backdrop-blur-sm"
+    >
+      <div
+        role="dialog"
+        aria-modal="true"
+        id="modal-box"
+        class="pop relative max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-3xl bg-white p-7 sm:p-10"
+      ></div>
+    </div>
+
+    <script>
+      // ---- Edit your details here ----
+      const COMPANY = {
+        name: "ncores",
+        whatsapp: "8801715445330",
+        waMessage:
+          "Hi ncores! I found your website and I'd like to talk about a project. Can you help me?",
+        email: "nazmus.s2004@gmail.com",
+        phone: "+880 1715445330",
+        location: "Dhaka, Bangladesh",
+      };
+
+      const WA_TOPICS = [
+        [
+          "I need a website",
+          "Hi ncores! I need a website for my business. Can we talk about it?",
+        ],
+        [
+          "I need custom software",
+          "Hi ncores! I need custom software or an office tool for my team. Can we talk about it?",
+        ],
+        [
+          "I want to automate my work",
+          "Hi ncores! I want to automate some repetitive work in my business. Can you help?",
+        ],
+        [
+          "Just asking a question",
+          "Hi ncores! I have a question about your services.",
+        ],
+      ];
+
+      const NAV = [
+        ["Services", "#services"],
+        ["Our work", "#work"],
+        ["How we work", "#process"],
+        ["Contact", "#contact"],
+      ];
+
+      const PROJECTS = [
+        {
+          id: "pickles-corner",
+          name: "Pickles Corner",
+          domain: "picklescorner.store",
+          url: "https://picklescorner.store",
+          category: "public",
+          type: "Online store",
+          description:
+            "A fast and beautiful online store, built to load quickly on mobile phones and make buying easy.",
+          metrics: ["Very fast loading", "Mobile friendly", "Secure payments"],
+          tech: ["React", "Next.js", "Tailwind CSS", "Shopify"],
+          longDescription:
+            "Pickles Corner is an online shop that handles many products and customers at the same time. We built it to be fast and easy to use on any device.",
+        },
+        {
+          id: "zaytaa",
+          name: "Zaytaa Platform",
+          domain: "zaytaa.com",
+          url: "https://zaytaa.com",
+          category: "public",
+          type: "Online store",
+          description:
+            "A modern digital platform and store with a great user experience and easy content management.",
+          metrics: [
+            "Smooth animations",
+            "Easy content editing",
+            "Fast worldwide",
+          ],
+          tech: ["React", "Node.js", "Tailwind CSS", "Supabase"],
+          longDescription:
+            "Zaytaa wanted a website that feels like a high-end brand. We built a beautiful web app where users can easily find products and read stories.",
+        },
+        {
+          id: "binder",
+          name: "Binder System",
+          domain: "Private office tool",
+          url: null,
+          category: "private",
+          type: "Office work hub",
+          description:
+            "Secure software made for Hashimukh to manage members and internal finances.",
+          metrics: ["High security", "Team access control", "Live updates"],
+          tech: [
+            "React",
+            "Node.js",
+            "Supabase",
+            "Database Systems",
+            "Secure Login",
+          ],
+          longDescription:
+            "Binder is a private system made for one company. It puts files, approvals, and daily work into one safe place that only staff can open.",
+        },
+        {
+          id: "crm-suite",
+          name: "Custom CRM System",
+          domain: "Private tool",
+          url: null,
+          category: "private",
+          type: "Client management tool",
+          description:
+            "A smart CRM for a Chartered Accountants office to manage client information.",
+          metrics: ["Saves time", "Automatic emails", "Clear reports"],
+          tech: ["Python", "Django", "MySQL"],
+          longDescription:
+            "This tool helps the team manage client information and open it from any device. They can see current clients, paid and unpaid status, and the features an office needs to run smoothly.",
+        },
+      ];
+
+      const SERVICES = [
+        [
+          "globe",
+          "Website development",
+          "Fast, beautiful websites and online stores that look great on computers and mobile phones.",
+          "Online shops, company websites",
+        ],
+        [
+          "code",
+          "Custom software",
+          "Private tools made around the way your team already works, not the other way around.",
+          "Offices, clubs, accounting firms",
+        ],
+        [
+          "cpu",
+          "Smart automation",
+          "AI and smart tools that do boring, repetitive work automatically and save you time and money.",
+          "Repeated tasks and manual paperwork",
+        ],
+        [
+          "layers",
+          "Cloud and servers",
+          "Secure, strong servers so your website or app stays online and runs fast all the time.",
+          "Sites and apps that must stay online",
+        ],
+      ];
+
+      const STEPS = [
+        [
+          "Talk",
+          "You tell us what is slowing your business down. We listen first.",
+        ],
+        [
+          "Plan",
+          "We agree on what to build, how long it takes, and what it costs.",
+        ],
+        ["Build", "We make it and show you progress along the way."],
+        [
+          "Launch and support",
+          "We put it online, show your team how to use it, and stay available.",
+        ],
+      ];
+
+      // ---- Icons ----
+      const ICONS = {
+        mail: '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+        phone:
+          '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+        pin: '<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>',
+        globe:
+          '<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+        code: '<path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/>',
+        cpu: '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>',
+        layers:
+          '<path d="m12 2 10 5-10 5L2 7l10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>',
+        lock: '<rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+        check: '<path d="M20 6 9 17l-5-5"/>',
+        arrow: '<path d="M5 12h14M12 5l7 7-7 7"/>',
+        x: '<path d="M18 6 6 18M6 6l12 12"/>',
+        menu: '<path d="M4 6h16M4 12h16M4 18h16"/>',
+        ext: '<path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+        chat: '<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+        send: '<path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>',
+      };
+      const icon = (n, size) =>
+        `<svg class="ic" ${size ? `style="width:${size}px;height:${size}px;stroke-width:3"` : ""} viewBox="0 0 24 24" aria-hidden="true">${ICONS[n]}</svg>`;
+      const mark = (light) =>
+        `<svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="2" y="2" width="12" height="12" rx="4" fill="#2749F0"/><rect x="16" y="2" width="12" height="12" rx="4" fill="${light ? "#fff" : "#0F1C3D"}"/><rect x="2" y="16" width="12" height="12" rx="4" fill="${light ? "#fff" : "#0F1C3D"}"/><rect x="16" y="16" width="12" height="12" rx="4" fill="#2749F0" opacity=".45"/></svg>`;
+      const $ = (s) => document.querySelector(s);
+      const waLink = (text = COMPANY.waMessage) =>
+        `https://wa.me/${COMPANY.whatsapp}?text=${encodeURIComponent(text)}`;
+
+      // ---- Static fills ----
+      $("#tiles").innerHTML = ["#FFD9A8", "#CDEBC5", "#FBC9C9"]
+        .map(
+          (c) =>
+            `<div><div class="aspect-square rounded-xl" style="background:${c}"></div><div class="mt-2.5 h-2 w-3/4 rounded bg-[#E3E6EE]"></div><div class="mt-1.5 h-2 w-1/3 rounded bg-[#2749F0]/60"></div></div>`,
+        )
+        .join("");
+      $("#bars").innerHTML = [40, 55, 45, 70, 60, 85, 100]
+        .map(
+          (h, i) =>
+            `<div class="flex-1 rounded-sm bg-[#2749F0]" style="height:${h}%;opacity:${0.35 + i * 0.1}"></div>`,
+        )
+        .join("");
+      document
+        .querySelectorAll("[data-mark]")
+        .forEach((e) => (e.innerHTML = mark()));
+      document.querySelectorAll("[data-nav]").forEach((nav) => {
+        const mobile = nav.dataset.nav === "mobile";
+        nav.innerHTML = NAV.map(
+          ([l, h]) =>
+            `<a href="${h}" class="${mobile ? "py-3 font-medium text-[#0F1C3D]" : "transition-colors hover:text-[#0F1C3D]"}">${l}</a>`,
+        ).join("");
+      });
+      $("#wa-topics").innerHTML = WA_TOPICS.map(
+        ([l, m]) =>
+          `<a href="${waLink(m)}" target="_blank" rel="noopener" class="rounded-full border border-[#D5D9E4] px-4 py-2 text-sm font-semibold transition-colors hover:border-[#128C4A] hover:bg-[#E3F6EE]">${l}</a>`,
+      ).join("");
+      document
+        .querySelectorAll("[data-wa]")
+        .forEach((a) => (a.href = waLink()));
+      $("#year").textContent = new Date().getFullYear();
+
+      $("#services-list").innerHTML = SERVICES.map(
+        ([i, t, d, b]) => `
+  <div class="flex gap-5 py-8">
+    <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#E6EAFF] text-[#2749F0]">${icon(i).replace('class="ic"', 'class="ic" style="width:24px;height:24px"')}</div>
+    <div><h3 class="display text-2xl font-bold">${t}</h3><p class="mt-2 max-w-lg leading-relaxed text-[#5A6479]">${d}</p><p class="mt-3 text-sm font-semibold text-[#2749F0]">Good for: ${b}</p></div>
+  </div>`,
+      ).join("");
+
+      $("#steps").innerHTML = STEPS.map(
+        ([t, d], i) => `
+  <li class="border-t-2 border-[#0F1C3D] pt-5"><div class="display text-3xl font-bold text-[#2749F0]">${i + 1}</div><h3 class="mt-3 text-lg font-bold">${t}</h3><p class="mt-2 leading-relaxed text-[#5A6479]">${d}</p></li>`,
+      ).join("");
+
+      $("#contact-info").innerHTML = [
+        ["chat", "WhatsApp (fastest reply)", COMPANY.phone, waLink()],
+        ["mail", "Email", COMPANY.email, `mailto:${COMPANY.email}`],
+        ["pin", "Location", COMPANY.location],
+      ]
+        .map(([i, l, v, h]) => {
+          const row = `<div class="flex items-center gap-4"><div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full ${i === "chat" ? "bg-[#128C4A]" : "bg-white/10"} text-white">${icon(i)}</div>
+  <div><div class="text-sm text-white/60">${l}</div><div class="break-all font-semibold text-white">${v}</div></div></div>`;
+          return h
+            ? `<a href="${h}" ${i === "chat" ? 'target="_blank" rel="noreferrer"' : ""} class="block transition-opacity hover:opacity-80">${row}</a>`
+            : row;
+        })
+        .join("");
+
+      document
+        .querySelectorAll("[data-i]")
+        .forEach(
+          (e) =>
+            (e.outerHTML = icon(e.dataset.i, e.dataset.s).replace(
+              'class="ic"',
+              `class="ic ${e.className}"`,
+            )),
+        );
+
+      // ---- Projects + filter ----
+      let filter = "all";
+      function renderProjects() {
+        $("#filters").innerHTML = [
+          ["all", "All work"],
+          ["public", "Websites"],
+          ["private", "Private tools"],
+        ]
+          .map(
+            ([k, l]) =>
+              `<button data-f="${k}" aria-pressed="${filter === k}" class="rounded-full px-4 py-2 transition-colors ${filter === k ? "bg-[#0F1C3D] text-white" : "text-[#5A6479] hover:text-[#0F1C3D]"}">${l}</button>`,
+          )
+          .join("");
+        $("#projects").innerHTML = PROJECTS.filter(
+          (p) => filter === "all" || p.category === filter,
+        )
+          .map((p) => {
+            const pub = p.category === "public";
+            return `<article class="flex flex-col overflow-hidden rounded-3xl border border-[#E3E6EE] bg-white">
+      <div class="flex h-44 items-end justify-between p-6 ${pub ? "bg-[#E6EAFF] text-[#0F1C3D]" : "bg-[#0F1C3D] text-white"}">
+        <div><div class="display text-2xl font-bold">${p.name}</div><div class="mt-1 text-sm ${pub ? "text-[#4A5A8F]" : "text-white/60"}">${p.domain}</div></div>
+        <span class="flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold ${pub ? "bg-[#E3F6EE] text-[#0B7A55]" : "bg-[#FEF3E2] text-[#9A4A07]"}">
+          ${pub ? '<span class="h-2 w-2 rounded-full bg-[#0E9F6E]"></span> Live website' : icon("lock", 12) + " Private tool"}</span>
+      </div>
+      <div class="flex flex-1 flex-col p-6 sm:p-8">
+        <div class="text-sm font-semibold text-[#2749F0]">${p.type}</div>
+        <p class="mt-2 leading-relaxed text-[#5A6479]">${p.description}</p>
+        <ul class="mt-5 flex flex-wrap gap-2">${p.metrics.map((m) => `<li class="flex items-center gap-1.5 rounded-full bg-[#F5F6FA] px-3 py-1.5 text-sm font-medium"><span class="text-[#2749F0]">${icon("check", 14)}</span>${m}</li>`).join("")}</ul>
+        <button data-p="${p.id}" class="mt-8 inline-flex items-center gap-2 self-start font-semibold text-[#2749F0] transition-all hover:gap-3">View details ${icon("arrow")}</button>
+      </div></article>`;
+          })
+          .join("");
+      }
+      renderProjects();
+      $("#filters").addEventListener("click", (e) => {
+        const b = e.target.closest("[data-f]");
+        if (b) {
+          filter = b.dataset.f;
+          renderProjects();
+        }
+      });
+      $("#projects").addEventListener("click", (e) => {
+        const b = e.target.closest("[data-p]");
+        if (b) openModal(PROJECTS.find((p) => p.id === b.dataset.p));
+      });
+
+      // ---- Popup ----
+      const modal = $("#modal");
+      function openModal(p) {
+        $("#modal-box").setAttribute("aria-label", p.name);
+        $("#modal-box").innerHTML = `
+    <button id="modal-x" aria-label="Close" class="absolute right-5 top-5 rounded-full bg-[#F5F6FA] p-2 hover:bg-[#E3E6EE]">${icon("x")}</button>
+    <h3 class="display pr-10 text-3xl font-bold">${p.name}</h3>
+    <p class="mt-1 font-semibold text-[#2749F0]">${p.domain}</p>
+    <p class="mt-6 leading-relaxed text-[#3B475E]">${p.longDescription}</p>
+    <h4 class="mt-8 font-semibold">Tools we used</h4>
+    <div class="mt-3 flex flex-wrap gap-2">${p.tech.map((t) => `<span class="rounded-full border border-[#E3E6EE] bg-[#F5F6FA] px-3.5 py-1.5 text-sm font-medium">${t}</span>`).join("")}</div>
+    <div class="mt-10 flex flex-wrap justify-end gap-3 border-t border-[#E3E6EE] pt-6">
+      <button id="modal-close" class="btn btn-ghost !py-2.5 text-sm">Close</button>
+      ${p.url ? `<a href="${p.url}" target="_blank" rel="noreferrer" class="btn btn-primary !py-2.5 text-sm">Open website ${icon("ext")}</a>` : ""}
+    </div>`;
+        modal.classList.replace("hidden", "flex");
+        document.body.style.overflow = "hidden";
+        $("#modal-x").focus();
+      }
+      function closeModal() {
+        modal.classList.replace("flex", "hidden");
+        document.body.style.overflow = "";
+      }
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal || e.target.closest("#modal-x, #modal-close"))
+          closeModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeModal();
+      });
+
+      // ---- Mobile menu ----
+      $("#menu-btn").addEventListener("click", () => {
+        const nav = $("#mobile-nav"),
+          open = nav.classList.toggle("hidden") === false;
+        nav.classList.toggle("flex", open);
+        $("#menu-btn").setAttribute("aria-expanded", open);
+      });
+      $("#mobile-nav").addEventListener("click", (e) => {
+        if (e.target.tagName === "A") {
+          $("#mobile-nav").classList.add("hidden");
+          $("#mobile-nav").classList.remove("flex");
+        }
+      });
+
+      // ---- Contact form (email only; WhatsApp uses the ready-made links above) ----
+      function showToast(msg) {
+        const t = $("#toast");
+        $("#toast-text").textContent = msg;
+        t.classList.replace("hidden", "flex");
+        setTimeout(() => t.classList.replace("flex", "hidden"), 4000);
+      }
+      $("#form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const f = new FormData(e.target);
+        const body = `${f.get("message")}
+
+From: ${f.get("name")} (${f.get("email")})`;
+        window.location.href = `mailto:${COMPANY.email}?subject=${encodeURIComponent("New project enquiry from " + f.get("name"))}&body=${encodeURIComponent(body)}`;
+        e.target.reset();
+        showToast("Opening your email app to send the message.");
+      });
+    </script>
+  </body>
+</html>
